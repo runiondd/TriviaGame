@@ -4,22 +4,165 @@
 <head>
   <meta charset="utf-8">
   <title>Trivia Game</title>
-  <style type="text/css">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style type="text/css"></style>
 
-  </style>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
 </head>
 
 <body>
 
   <div class="container">
-    <h1>Trivia Game</h1>
+    <div class="row"><div class="col-12"><h1>Trivia Game</h1></div></div>
+    
+    <div class="container">
+      <div class="row"><div class="col">
+    <button type="button" id="start" class="btn btn-primary start">Start Game</button>
+  <form>
+    <fieldset class="form-group">
+        <div class="row">
+          <legend class="col-form-label col-sm-2 pt-0">Question 1</legend>
+          <div class="col-sm-10">
+            <div class="form-check">
+              <input class="form-check-input required" type="radio" name="gridRadios1" id="gridRadios1" value="option1" name="myoptions[]">
+              <label class="form-check-label" for="gridRadios1">
+                First answer
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="gridRadios1" id="gridRadios1" value="option2" name="myoptions[]">
+              <label class="form-check-label" for="gridRadios2">
+                Second answer
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="gridRadios1" id="gridRadios1" value="option3" name="myoptions[]">
+              <label class="form-check-label" for="gridRadios3">
+                Third answer
+              </label>
+            </div>
+          </div>
+        </div>
+      </fieldset>
 
+      <fieldset class="form-group">
+        <div class="row">
+          <legend class="col-form-label col-sm-2 pt-0">Question 2</legend>
+          <div class="col-sm-10">
+            <div class="form-check">
+              <input class="form-check-input required" type="radio" name="gridRadios2" id="gridRadios2" value="option1">
+              <label class="form-check-label" for="gridRadios1">
+                First answer
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="gridRadios2" id="gridRadios2" value="option2">
+              <label class="form-check-label" for="gridRadios2">
+                Second answer
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="gridRadios2" id="gridRadios2" value="option3">
+              <label class="form-check-label" for="gridRadios3">
+                Third answer
+              </label>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="form-group">
+        <div class="row">
+          <legend class="col-form-label col-sm-2 pt-0">Question 3</legend>
+          <div class="col-sm-10">
+            <div class="form-check">
+              <input class="form-check-input required" type="radio" name="gridRadios3" id="gridRadios3" value="option1">
+              <label class="form-check-label" for="gridRadios1">
+                First answer
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="gridRadios3" id="gridRadios3" value="option2">
+              <label class="form-check-label" for="gridRadios2">
+                Second answer
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="gridRadios3" id="gridRadios3" value="option3">
+              <label class="form-check-label" for="gridRadios3">
+                Third answer
+              </label>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+      <button type="submit" id="scoreGame" class="btn btn-primary">Score</button>
+     
+    </form>
+  </div>
+  <div class="col">
+      <div class="card" style="width: 18rem;">
+       
+        <div class="card-body">
+          <h5 class="card-title"><div id="display">00:00</div></h5>
+          <p class="card-text">You have 30 seconds to complete the quiz. At which point you are a loser.</p>
+          
+        </div>
+      </div>
+
+  </div>
+  </div>
+  </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script type="text/javascript">
 
+    <script type="text/javascript">
+      // validate that one radio from each question/group is checked.
+      $(document).ready(function(){
+        var intervalId;
+
+          $('#scoreGame').click(function(){
+              var check = true;
+              $("input:radio").each(function(){
+                  var name = $(this).attr("name");
+                  if($("input:radio[name="+name+"]:checked").length == 0){
+                      check = false;
+                  } else {
+                    //grab the value of the answer
+                    var answer = $(this).attr("value");
+                  }
+              });
+              
+              if(check){
+                //stop the timer and score the game
+                clearInterval(intervalId);
+                  alert('One radio in each group is checked.');
+              } else {
+                //leave the timer running and alert user.  
+                  alert('Please select one option in each question.');
+              }
+          });
+      });
+
+      var answers = [];
+      //  Start on timer oncCick.
+      $("#start").on("click", function() {
+        stopwatch.reset();  
+        stopwatch.start();
+        $(".card-text").text("You have 30 seconds to complete the quick, or you are officialy a loser.");
+           $(".card-text").attr("style", "color:black;")
+        //  Set the button alert's timeout to run 30 seconds after the function's called.
+         delayButtonAlert = setTimeout(function() {
+           $(".card-text").text("You've run out of time and are officially a loser.");
+           $(".card-text").attr("style", "color:red;")
+           stopwatch.stop();
+         }, 30000);
+      });
 
     </script>
   </div>
+  <!-- Script -->
+  <script type="text/javascript" src="assets/javascript/stopwatchSolution.js"></script>
 </body>
 
 </html>
